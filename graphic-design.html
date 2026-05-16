@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Graphic Design | Adrian Nguyen</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .design-section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--blue);
+      display: inline-block;
+    }
+    .design-sapo {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 28px;
+      max-width: 700px;
+    }
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .design-placeholder {
+      background: linear-gradient(135deg, #F9FAFB, #EFF6FF);
+      border: 1px dashed #BFDBFE;
+      border-radius: 12px;
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px;
+      transition: all 0.2s;
+    }
+    .design-placeholder:hover { border-color: var(--blue); background: #EFF6FF; }
+    .design-placeholder i { font-size: 1.8rem; opacity: 0.5; }
+    .design-placeholder p { font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+    .design-sub-section { margin-bottom: 64px; }
+    .add-note {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      color: #92400E;
+      margin-bottom: 48px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ADRIAN NGUYEN</div>
+  <div class="nav-divider"></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Resume</a>
+    <a href="video.html">Video</a>
+    <a href="graphic-design.html" class="active">Graphic Design</a>
+    <a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="ads.html">Ads</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="resume.html">Resume</a>
+  <a href="video.html">Video</a>
+  <a href="graphic-design.html" class="active">Graphic Design</a>
+  <a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a>
+  <a href="ads.html">Ads</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal">
+      <div class="hero-img-placeholder">📷 Design montage / Illustrator/Canva workspace screenshot</div>
+    </div>
+    <div class="hero-text reveal">
+      <h1>Graphic Design</h1>
+      <p class="sub">Design that performs — not the design awards circuit.</p>
+      <p>I design with one constraint: the visual has to do its job. Whether it's a POSM at a clinic counter, an SEO featured image fighting for the click, or a landing page that has to convert a $20 ad click, I treat every design as a conversion asset. Tools I use daily: Adobe Illustrator, Canva Pro + AI, Premiere Pro, CapCut, and an evolving stack of AI-assisted design tools.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PORTFOLIO -->
+<section class="section section-alt">
+  <div class="section-inner">
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">POSM — Point of Sale Materials</div>
+      <p class="design-sapo">In-clinic and in-store visual assets that turn foot traffic into bookings. I designed full POSM systems for Doctor Check clinics — waiting-room posters, counter standees, consultation-room handouts, and product brochures. Every piece was tested in real environments before final production.</p>
+      <div class="design-grid">
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Clinic Poster</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Counter Standee</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Handout / Brochure</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Product Brochure</strong><p>Add your design image here</p></div>
+      </div>
+      <div class="add-note">💡 To add images: upload your design files to the portfolio folder, then replace each placeholder div with <code>&lt;img src="your-image.jpg" alt="description" style="border-radius:12px;width:100%;"&gt;</code></div>
+    </div>
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">OOH — Out-of-Home</div>
+      <p class="design-sapo">Large-format visual assets including outdoor banners, transit ads, and event signage. Designed for high-contrast legibility at distance, with brand recall as the primary KPI. Worked across Doctor Check (healthcare) and Vietnam Food (pet wellness) campaigns.</p>
+      <div class="design-grid">
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Billboard Mockup</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Banner / Signage</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Event Visual</strong><p>Add your design image here</p></div>
+      </div>
+    </div>
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">Ebook & Long-Form Document Design</div>
+      <p class="design-sapo">Long-form document design for lead magnets, course materials, and B2B sales collateral. I designed accompanying ebook and PDF materials for Dr. Ngo Hong Phuong's Udemy course (4.5 hours of content), as well as ESG-aligned documentation for Vietnam Food's Inclusive Business Type A certification.</p>
+      <div class="design-grid">
+        <div class="design-placeholder" style="aspect-ratio:3/4;"><i class="fa fa-book"></i><strong>Ebook Cover</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder" style="aspect-ratio:3/4;"><i class="fa fa-file-alt"></i><strong>Interior Spread</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder" style="aspect-ratio:3/4;"><i class="fa fa-book"></i><strong>Course Materials</strong><p>Add your design image here</p></div>
+      </div>
+    </div>
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">Social Media Post Design</div>
+      <p class="design-sapo">Platform-native graphics designed for the scroll. I've produced social media images for Facebook, Instagram, LinkedIn, and Zalo — covering everything from product launches to scientific explainers to KOL collaborations. Each post is sized and styled for the platform's algorithmic preferences.</p>
+      <div class="design-grid">
+        <div class="design-placeholder"><i class="fab fa-facebook"></i><strong>Facebook Post</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fab fa-instagram"></i><strong>Instagram Post</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fab fa-linkedin"></i><strong>LinkedIn Graphic</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-comment"></i><strong>Zalo Post</strong><p>Add your design image here</p></div>
+      </div>
+    </div>
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">SEO Image / Featured Graphics</div>
+      <p class="design-sapo">Featured images and in-article graphics designed to support SEO performance. Optimized for click-through from search results, in-article engagement, and image-search visibility. Used heavily across the 300+ articles I produced for Doctor Check.</p>
+      <div class="design-grid">
+        <div class="design-placeholder"><i class="fa fa-search"></i><strong>SEO Featured Image</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>In-Article Graphic</strong><p>Add your design image here</p></div>
+        <div class="design-placeholder"><i class="fa fa-image"></i><strong>Infographic</strong><p>Add your design image here</p></div>
+      </div>
+    </div>
+
+    <div class="design-sub-section reveal">
+      <div class="design-section-title">Landing Page Design</div>
+      <p class="design-sapo">Conversion-focused landing pages built on WordPress and tied directly to Google Ads campaigns. I design for one thing: the click → call → booking flow. Every landing page I built at Doctor Check was paired with the ads that served it — supporting 35.17% CTR campaigns and a 44% webinar attendance rate at AmpliSci.</p>
+      <div class="design-grid">
+        <div class="design-placeholder" style="aspect-ratio:9/16;"><i class="fa fa-desktop"></i><strong>Landing Page (Desktop)</strong><p>Full-page screenshot</p></div>
+        <div class="design-placeholder" style="aspect-ratio:9/16;"><i class="fa fa-mobile-alt"></i><strong>Landing Page (Mobile)</strong><p>Mobile view screenshot</p></div>
+        <div class="design-placeholder"><i class="fa fa-desktop"></i><strong>Landing Page Hero</strong><p>Add your design image here</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Let's build something that compounds.</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call/SMS</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+<script src="script.js"></script>
+</body>
+</html>

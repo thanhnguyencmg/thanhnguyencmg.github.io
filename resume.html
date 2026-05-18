@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume | Adrian Nguyen</title>
+  <link rel="icon" href="media/avatar-logo.png"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .pdf-section { padding: 60px 40px; background: var(--bg-alt); }
+    .pdf-wrapper { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 8px 40px rgba(0,0,0,0.08); text-align: center; }
+    .pdf-embed { width: 100%; height: 900px; border: none; border-radius: 8px; display: block; }
+    @media (max-width: 768px) { .pdf-section { padding: 40px 20px; } .pdf-wrapper { padding: 20px; } .pdf-embed { height: 500px; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <img src="media/avatar-logo.png" alt="Adrian" class="nav-avatar"/>
+    <span class="logo">ADRIAN NGUYEN</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html" class="active">Resume</a>
+    <a href="video.html">Video</a>
+    <a href="graphic-design.html">Graphic Design</a>
+    <a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="ads.html">Ads</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="resume.html" class="active">Resume</a>
+  <a href="video.html">Video</a>
+  <a href="graphic-design.html">Graphic Design</a>
+  <a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a>
+  <a href="ads.html">Ads</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal">
+      <img src="media/headshot.jpg" alt="Adrian Nguyen"/>
+    </div>
+    <div class="hero-text reveal">
+      <h1>Hi, I'm Adrian Nguyen.</h1>
+      <p class="sub">Senior Digital Marketing Specialist | Specializing in Biotech & Healthcare</p>
+      <p>I'm that dot-connector — someone who blends biotech insight, strategic thinking, and an AI-enabling mindset to bring more sustainability, adaptability, and long-term foresight into marketing teams.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PDF -->
+<section class="pdf-section">
+  <div class="pdf-wrapper reveal">
+    <a class="btn btn-orange" href="media/CV-Adrian-Nguyen-2026.pdf" download style="display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;">
+      <i class="fa fa-download"></i> Resume (PDF)
+    </a>
+    <iframe
+      src="media/CV-Adrian-Nguyen-2026.pdf"
+      class="pdf-embed"
+      title="Adrian Nguyen — Senior Digital Marketing Specialist CV, last updated March 2026">
+    </iframe>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Contact Me</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+<script src="script.js"></script>
+</body>
+</html>

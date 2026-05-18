@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Graphic Design | Adrian Nguyen</title>
+  <link rel="icon" href="media/avatar-logo.png"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .design-section { margin-bottom: 60px; }
+    .design-section-title {
+      font-size: 1.3rem; font-weight: 700; color: var(--dark);
+      margin-bottom: 20px; padding-bottom: 10px;
+      border-bottom: 3px solid var(--blue); display: inline-block;
+    }
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .design-grid.tall-grid {
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+
+    /* Gallery item */
+    .gallery-item {
+      position: relative; border-radius: 10px; overflow: hidden;
+      cursor: pointer; background: var(--bg-alt);
+      border: 1px solid var(--border); transition: all 0.25s;
+      aspect-ratio: 4/3;
+    }
+    .gallery-item.tall { aspect-ratio: 3/4; }
+    .gallery-item:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(5,74,218,0.14); border-color: var(--blue); }
+
+    .gallery-item img.thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .gallery-item:hover img.thumb { transform: scale(1.04); }
+
+    /* PDF canvas */
+    .pdf-canvas-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f5f5f5; }
+    .pdf-canvas-wrap canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    /* PDF badge */
+    .pdf-badge {
+      position: absolute; top: 7px; right: 7px;
+      background: var(--blue); color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 3px 7px; border-radius: 4px; pointer-events: none;
+    }
+
+    /* Loading state */
+    .gallery-item .loading-thumb {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 1.4rem;
+    }
+
+    /* Hover zoom icon */
+    .hover-overlay {
+      position: absolute; inset: 0;
+      background: rgba(5,74,218,0.07);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.25s; pointer-events: none;
+    }
+    .gallery-item:hover .hover-overlay { opacity: 1; }
+    .hover-overlay .zoom-icon {
+      width: 42px; height: 42px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18); color: var(--blue); font-size: 1rem;
+    }
+
+    /* LIGHTBOX */
+    #gallery-modal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.88);
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    #gallery-modal.open { display: flex; }
+    .modal-inner {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      max-width: 920px; width: 100%; max-height: 92vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.45);
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .modal-header span { font-size: 0.88rem; font-weight: 600; color: var(--dark); }
+    .modal-close {
+      width: 30px; height: 30px; border: none; background: none;
+      cursor: pointer; font-size: 1.4rem; color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; transition: background 0.2s; line-height: 1;
+    }
+    .modal-close:hover { background: var(--bg-alt); color: var(--dark); }
+    .modal-body {
+      flex: 1; overflow: auto;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; background: #fafafa;
+    }
+    .modal-body img { max-width: 100%; max-height: 76vh; object-fit: contain; border-radius: 6px; display: block; }
+    .modal-body iframe { width: 100%; height: 76vh; border: none; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <img src="media/avatar-logo.png" alt="Adrian" class="nav-avatar"/>
+    <span class="logo">ADRIAN NGUYEN</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Resume</a>
+    <a href="video.html">Video</a>
+    <a href="graphic-design.html" class="active">Graphic Design</a>
+    <a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="ads.html">Ads</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="resume.html">Resume</a>
+  <a href="video.html">Video</a>
+  <a href="graphic-design.html" class="active">Graphic Design</a>
+  <a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a>
+  <a href="ads.html">Ads</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal">
+      <img src="media/headshot.jpg" alt="Adrian Nguyen"/>
+    </div>
+    <div class="hero-text reveal">
+      <img src="media/graphic-design.svg" alt="" class="page-icon"/>
+      <h1>Graphic Design</h1>
+      <p class="sub">Design that performs — not the design awards circuit.</p>
+      <p>I design with one constraint: the visual has to do its job. Whether it's a POSM at a clinic counter, an SEO featured image fighting for the click, or a landing page that has to convert a $20 ad click, I treat every design as a conversion asset. Tools I use daily: Adobe Illustrator, Canva Pro + AI, Premiere Pro, CapCut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERIES -->
+<section class="section section-alt">
+  <div class="section-inner">
+
+    <div class="design-section reveal">
+      <div class="design-section-title">POSM — Point of Sale Materials</div>
+      <div class="design-grid" id="grid-posm"></div>
+    </div>
+
+    <div class="design-section reveal">
+      <div class="design-section-title">OOH — Out-of-Home</div>
+      <div class="design-grid" id="grid-ooh"></div>
+    </div>
+
+    <div class="design-section reveal">
+      <div class="design-section-title">Ebook & Long-Form Document Design</div>
+      <div class="design-grid tall-grid" id="grid-ebook"></div>
+    </div>
+
+    <div class="design-section reveal">
+      <div class="design-section-title">Social Media Post Design</div>
+      <div class="design-grid" id="grid-social"></div>
+    </div>
+
+    <div class="design-section reveal">
+      <div class="design-section-title">SEO Image / Featured Graphics</div>
+      <div class="design-grid" id="grid-seo"></div>
+    </div>
+
+    <div class="design-section reveal">
+      <div class="design-section-title">Landing Page Design</div>
+      <div class="design-grid tall-grid" id="grid-landing"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="gallery-modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <span id="modal-label">Preview</span>
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Contact Me</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// ─── GALLERY DATA — classified from media/ folder ─────────────────────────
+const GALLERY_DATA = {
+
+  posm: [
+    { file: 'media/Standee - Doctor Check x AstraZeneca - 2.png',  label: 'Standee — Doctor Check x AstraZeneca' },
+    { file: 'media/Standee - Doctor Check x Gene Solution.png',    label: 'Standee — Doctor Check x Gene Solution' },
+    { file: 'media/Namecard - Doctor Check.jpg',                   label: 'Namecard — Doctor Check' },
+    { file: 'media/Namecard - Endo Clinic.jpg',                    label: 'Namecard — Endo Clinic' },
+    { file: 'media/Namecard - Employee ID Cards.png',              label: 'Employee ID Cards' },
+    { file: 'media/Flyer - Bowel Preparation Instruction.jpg',     label: 'Flyer — Bowel Preparation Instruction' },
+    { file: 'media/merchandise - ceramic mug.jpg',                 label: 'Merchandise — Ceramic Mug' },
+    { file: 'media/Brochure - Doctor Check.pdf',                   label: 'Brochure — Doctor Check' },
+    { file: 'media/Leaflet - Colonoscopy.pdf',                     label: 'Leaflet — Colonoscopy' },
+    { file: 'media/Leaflet - Upper Endoscopy.pdf',                 label: 'Leaflet — Upper Endoscopy' },
+    { file: 'media/Flyer - Check-in Program.pdf',                  label: 'Flyer — Check-in Program' },
+    { file: 'media/Folder - Brief 1.pdf',                          label: 'Folder — Brief' },
+    { file: 'media/Seminar - Doctor Check x Fujifilm.jpg',         label: 'Seminar — Doctor Check x Fujifilm' },
+  ],
+
+  ooh: [
+    { file: 'media/Banner - Bus station mockup.jpg',  label: 'Banner — Bus Station Mockup' },
+    { file: 'media/Banner - Price list mockup.jpg',   label: 'Banner — Price List Mockup' },
+    { file: 'media/Car wrap - Mock up.jpg',           label: 'Car Wrap Mockup' },
+    { file: 'media/Lightbox sign - Mockup.jpg',       label: 'Lightbox Sign Mockup' },
+  ],
+
+  ebook: [
+    { file: 'media/Đái tháo đường - Ebook.pdf', label: 'Ebook — Đái Tháo Đường', tall: true },
+    { file: 'media/Đột quỵ - Ebook.pdf',         label: 'Ebook — Đột Quỵ',        tall: true },
+    { file: 'media/Gan nhiễm mỡ - Ebook.pdf',    label: 'Ebook — Gan Nhiễm Mỡ',   tall: true },
+    { file: 'media/GERD - Ebook.pdf',             label: 'Ebook — GERD',            tall: true },
+  ],
+
+  social: [
+    { file: 'media/FB Daily Post - 1.pdf', label: 'FB Daily Post 1' },
+    { file: 'media/FB Daily Post - 2.pdf', label: 'FB Daily Post 2' },
+    { file: 'media/FB Daily Post - 3.pdf', label: 'FB Daily Post 3' },
+    { file: 'media/FB Daily Post - 4.pdf', label: 'FB Daily Post 4' },
+    { file: 'media/FB Daily Post - 5.pdf', label: 'FB Daily Post 5' },
+    { file: 'media/YouTube - Thumbnail.pdf', label: 'YouTube Thumbnail' },
+    { file: 'media/zalo-ads-1.png', label: 'Zalo Ads — 1' },
+    { file: 'media/zalo-ads-3.png', label: 'Zalo Ads — 3' },
+    { file: 'media/zalo-ads-6.png', label: 'Zalo Ads — 6' },
+  ],
+
+  seo: [
+    { file: 'media/Google Ads - 4 Steps To Treat GERD 900x900px.jpg',   label: 'Google Ads — GERD 900×900' },
+    { file: 'media/Google Ads - 4 Steps To Treat GERD 1200x628px.jpg',  label: 'Google Ads — GERD 1200×628' },
+    { file: 'media/Google Ads - Colonoscopy 900x900px.jpg',             label: 'Google Ads — Colonoscopy 900×900' },
+    { file: 'media/Google Ads - Colonoscopy 1200x628px.jpg',            label: 'Google Ads — Colonoscopy 1200×628' },
+    { file: 'media/Google Ads - Upper Endoscopy 900x900px.jpg',         label: 'Google Ads — Upper Endoscopy 900×900' },
+    { file: 'media/Google Ads - Upper Endoscopy 1200x628px.jpg',        label: 'Google Ads — Upper Endoscopy 1200×628' },
+    { file: 'media/SEO Image - Helicobacter pylori.pdf',                label: 'SEO Image — Helicobacter Pylori' },
+    { file: 'media/SEO Image - What is BASO.pdf',                       label: 'SEO Image — What Is BASO' },
+  ],
+
+  landing: [
+    { file: 'media/Portfolio Skills - Landing Page.pdf', label: 'Landing Page — Portfolio Skills', tall: true },
+  ],
+};
+
+// ─── PDF.js setup ──────────────────────────────────────────────────────────
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+async function renderPDFThumb(url, container) {
+  try {
+    const pdf = await pdfjsLib.getDocument(url).promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 1 });
+    const canvas = document.createElement('canvas');
+    const scale = Math.min(400 / viewport.width, 300 / viewport.height);
+    const scaled = page.getViewport({ scale });
+    canvas.width = scaled.width;
+    canvas.height = scaled.height;
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: scaled }).promise;
+    container.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'pdf-canvas-wrap';
+    wrap.appendChild(canvas);
+    container.appendChild(wrap);
+  } catch (e) {
+    container.innerHTML = '<div class="loading-thumb"><i class="fa fa-file-pdf"></i></div>';
+  }
+}
+
+// ─── Modal ─────────────────────────────────────────────────────────────────
+function openModal(file, label) {
+  const modal = document.getElementById('gallery-modal');
+  const body = document.getElementById('modal-body');
+  document.getElementById('modal-label').textContent = label || file.split('/').pop();
+  body.innerHTML = '';
+  const ext = file.split('.').pop().toLowerCase();
+  if (ext === 'pdf') {
+    const iframe = document.createElement('iframe');
+    iframe.src = file;
+    iframe.title = label;
+    body.appendChild(iframe);
+  } else {
+    const img = document.createElement('img');
+    img.src = file;
+    img.alt = label;
+    body.appendChild(img);
+  }
+  modal.classList.add('open');
+}
+
+document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+document.getElementById('gallery-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('gallery-modal')) closeModal();
+});
+function closeModal() {
+  document.getElementById('gallery-modal').classList.remove('open');
+  document.getElementById('modal-body').innerHTML = '';
+}
+
+// ─── Build gallery items ────────────────────────────────────────────────────
+function buildItem(entry) {
+  const ext = entry.file.split('.').pop().toLowerCase();
+  const isPDF = ext === 'pdf';
+  const div = document.createElement('div');
+  div.className = 'gallery-item' + (entry.tall ? ' tall' : '');
+  div.addEventListener('click', () => openModal(entry.file, entry.label));
+
+  if (isPDF) {
+    // Loading placeholder until PDF renders
+    div.innerHTML = '<div class="loading-thumb"><i class="fa fa-spinner fa-spin"></i></div>';
+    renderPDFThumb(entry.file, div);
+    const badge = document.createElement('span');
+    badge.className = 'pdf-badge';
+    badge.textContent = 'PDF';
+    div.appendChild(badge);
+  } else {
+    const img = document.createElement('img');
+    img.src = entry.file;
+    img.alt = entry.label || '';
+    img.className = 'thumb';
+    img.loading = 'lazy';
+    div.appendChild(img);
+  }
+
+  const overlay = document.createElement('div');
+  overlay.className = 'hover-overlay';
+  overlay.innerHTML = '<div class="zoom-icon"><i class="fa fa-expand-alt"></i></div>';
+  div.appendChild(overlay);
+
+  return div;
+}
+
+// ─── Populate grids ─────────────────────────────────────────────────────────
+const GRID_MAP = {
+  posm:    'grid-posm',
+  ooh:     'grid-ooh',
+  ebook:   'grid-ebook',
+  social:  'grid-social',
+  seo:     'grid-seo',
+  landing: 'grid-landing',
+};
+
+Object.entries(GRID_MAP).forEach(([key, gridId]) => {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const entries = GALLERY_DATA[key] || [];
+  entries.forEach(entry => grid.appendChild(buildItem(entry)));
+});
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>

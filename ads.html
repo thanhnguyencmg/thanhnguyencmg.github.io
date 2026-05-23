@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ads | Adrian Nguyen</title>
+  <link rel="icon" href="media/avatar-logo.png"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* Skill columns */
+    .skills-columns { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 24px; }
+    .skill-col h4 { font-size: 0.82rem; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #EFF6FF; }
+    .skill-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .skill-col ul li { font-size: 0.85rem; color: var(--muted); padding-left: 16px; position: relative; }
+    .skill-col ul li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-size: 0.75rem; }
+
+    /* Big stat numbers */
+    .big-numbers { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 36px; }
+    .big-num { background: linear-gradient(135deg,#054ADA,#0339b0); color: #fff; border-radius: 16px; padding: 28px 20px; text-align: center; }
+    .big-num.accent { background: linear-gradient(135deg,#FF8800,#e07700); }
+    .big-num .val { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+    .big-num .lbl { font-size: 0.78rem; opacity: 0.85; font-weight: 500; }
+    .big-num .note { font-size: 0.68rem; opacity: 0.65; margin-top: 4px; }
+    @media(max-width:600px) { .big-numbers { grid-template-columns: 1fr; } }
+
+    /* Drive asset gallery */
+    .asset-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 14px; }
+    .asset-card {
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      cursor: pointer; background: #fff; transition: all 0.25s; display: flex; flex-direction: column;
+    }
+    .asset-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(5,74,218,0.13); border-color: var(--blue); }
+    .asset-thumb { aspect-ratio: 4/3; overflow: hidden; background: var(--bg-alt); position: relative; }
+    .asset-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .asset-card:hover .asset-thumb img { transform: scale(1.04); }
+    .asset-hover-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 22px 12px 10px;
+      background: linear-gradient(to top, rgba(5,74,218,0.8) 0%, transparent 100%);
+      color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transform: translateY(100%); transition: transform 0.3s cubic-bezier(.22,.61,.36,1);
+      pointer-events: none;
+    }
+    .asset-card:hover .asset-hover-bar { transform: translateY(0); }
+    .asset-label { padding: 8px 12px; font-size: 0.75rem; font-weight: 600; color: var(--dark); line-height: 1.4; }
+
+    /* Drive popup modal */
+    #ads-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.88); align-items: center; justify-content: center; padding: 16px; }
+    #ads-modal.open { display: flex; }
+    .ads-modal-inner { background: #fff; border-radius: 14px; overflow: hidden; width: min(960px,96vw); height: min(90vh,900px); display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.5); animation: adsPopIn 0.2s ease; }
+    @keyframes adsPopIn { from{transform:scale(0.88);opacity:0} to{transform:scale(1);opacity:1} }
+    .ads-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .ads-modal-title { font-size: 0.88rem; font-weight: 700; color: var(--dark); }
+    .ads-modal-close { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 1.3rem; color: var(--muted); display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: background 0.2s; }
+    .ads-modal-close:hover { background: var(--bg-alt); color: var(--dark); }
+    #ads-iframe { flex: 1; border: none; width: 100%; display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <img src="media/avatar-logo.png" alt="Adrian" class="nav-avatar"/>
+    <span class="logo">ADRIAN NGUYEN</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a><a href="resume.html">Resume</a><a href="video.html">Video</a>
+    <a href="graphic-design.html">Graphic Design</a><a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a><a href="ads.html" class="active">Ads</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a><a href="resume.html">Resume</a><a href="video.html">Video</a>
+  <a href="graphic-design.html">Graphic Design</a><a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a><a href="ads.html" class="active">Ads</a><a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal"><img src="media/headshot.jpg" alt="Adrian Nguyen"/></div>
+    <div class="hero-text reveal">
+      <img src="media/ads.svg" alt="" class="page-icon"/>
+      <h1>Ads</h1>
+      <p class="sub">756M+ VNĐ spend. 35.17% CTR on CPC. ROAS 6.21.</p>
+      <p>I run performance-driven paid media across Google, Meta, TikTok, YouTube, and Zalo. At Doctor Check, I managed Google Ads campaigns — optimizing ad copy, landing pages, and bidding strategy — and achieved a 35.17% CTR on CPC campaigns. Every ad I run is tied to a landing page I've designed and a remarketing flow I've mapped.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ADS SKILLS ─────────────────────────────────────── -->
+<section class="section">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Ads <span>Skills</span></h2>
+    <div class="skills-columns reveal" style="margin-top:32px;">
+      <div class="skill-col">
+        <h4>Platforms</h4>
+        <ul>
+          <li>Google Ads (Search, Display, Smart Campaigns)</li>
+          <li>Meta Ads (Facebook, Instagram)</li>
+          <li>TikTok Ads</li>
+          <li>YouTube Ads</li>
+          <li>Zalo Ads</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>Strategy & Optimization</h4>
+        <ul>
+          <li>Bidding Strategy</li>
+          <li>Budget Allocation & Pacing</li>
+          <li>Audience Targeting & Lookalikes</li>
+          <li>Remarketing</li>
+          <li>Conversion Tracking & Attribution</li>
+          <li>A/B Testing & Iteration</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>Creative & Landing Page</h4>
+        <ul>
+          <li>Performance Ad Copywriting</li>
+          <li>Creative Brief & Production Direction</li>
+          <li>Landing Page Design (WordPress)</li>
+          <li>CRO (Conversion Rate Optimization)</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>Reporting & Analytics</h4>
+        <ul>
+          <li>Google Analytics 4</li>
+          <li>Performance Dashboards</li>
+          <li>Campaign Attribution Analysis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GOOGLE ADS PERFORMANCE ─────────────────────────── -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Google Ads Performance — <span>Doctor Check</span></h2>
+    <p class="section-sub reveal">Nov 2023 – Jul 2024</p>
+
+    <!-- 3 big stats: Spend, CTR, ROAS -->
+    <div class="big-numbers reveal">
+      <div class="big-num">
+        <div class="val">756M+</div>
+        <div class="lbl">VNĐ Total Ad Spend</div>
+      </div>
+      <div class="big-num accent">
+        <div class="val">35.17%</div>
+        <div class="lbl">CTR on CPC Campaigns</div>
+      </div>
+      <div class="big-num">
+        <div class="val">6.21</div>
+        <div class="lbl">ROAS</div>
+        <div class="note">19 campaigns with data</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── IMAGE ASSET FOR ADS ───────────────────────────── -->
+<section class="section">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Image Asset <span>for Ads</span></h2>
+    <p class="section-sub reveal">Social media post designs used across Google Ads, Meta Ads, and Zalo Ads campaigns</p>
+    <div class="asset-grid reveal">
+
+      <!-- FB Daily Posts -->
+      <div class="asset-card" onclick="openAds('1auTBheGr6OiQ90bcavLJ6mfZgK-laW8n','FB Daily Post - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1auTBheGr6OiQ90bcavLJ6mfZgK-laW8n&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">FB Daily Post - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1-tN7M9JDOMGd4O1uhJ-GFmGwgvc239e3','FB Daily Post - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1-tN7M9JDOMGd4O1uhJ-GFmGwgvc239e3&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">FB Daily Post - 2</div>
+      </div>
+      <div class="asset-card" onclick="openAds('105mBLpjResdH4X1iDMPbSWVysrcNxVBB','FB Daily Post - 3')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=105mBLpjResdH4X1iDMPbSWVysrcNxVBB&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">FB Daily Post - 3</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1MgcKaORTvkScfXWgz-Da36NDO8aKBdKJ','FB Daily Post - 4')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1MgcKaORTvkScfXWgz-Da36NDO8aKBdKJ&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">FB Daily Post - 4</div>
+      </div>
+
+      <!-- YouTube Thumbnails -->
+      <div class="asset-card" onclick="openAds('1LLYdPIyrkN0kPkPbo7kyCYa3BYtP_spn','YouTube Thumbnail - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1LLYdPIyrkN0kPkPbo7kyCYa3BYtP_spn&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">YouTube Thumbnail - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1LK9d4cOPi9c8tg7VL58zNRpdC5B0jxyF','YouTube Thumbnail - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1LK9d4cOPi9c8tg7VL58zNRpdC5B0jxyF&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">YouTube Thumbnail - 2</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1LlOE1D3tuSJmBmWdPzSGGOYHiAYrHZ8E','YouTube Thumbnail - 3')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1LlOE1D3tuSJmBmWdPzSGGOYHiAYrHZ8E&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">YouTube Thumbnail - 3</div>
+      </div>
+
+      <!-- Google Ads -->
+      <div class="asset-card" onclick="openAds('1NAFjteZfrlov45Z6-D-pg6Jih7tHGnSj','Google Ads 900×900 - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NAFjteZfrlov45Z6-D-pg6Jih7tHGnSj&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Google Ads 900×900 - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1NAoGLfe3xpWuWVhdTyhOFwoMKPkbDqo2','Google Ads 1200×628 - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NAoGLfe3xpWuWVhdTyhOFwoMKPkbDqo2&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Google Ads 1200×628 - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1NNsDvS73tfcqiNWzJe7kpWpDfWw4y5xk','Google Ads 900×900 - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NNsDvS73tfcqiNWzJe7kpWpDfWw4y5xk&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Google Ads 900×900 - 2</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1NHncccpKj1aYnGbCTcVSI4s59a8qMyTN','Google Ads 1200×628 - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NHncccpKj1aYnGbCTcVSI4s59a8qMyTN&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Google Ads 1200×628 - 2</div>
+      </div>
+
+      <!-- Zalo Ads -->
+      <div class="asset-card" onclick="openAds('1NPsiJNIKz-NNUHgjzEkoGgp9SMy0IkEd','Zalo Ads - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NPsiJNIKz-NNUHgjzEkoGgp9SMy0IkEd&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Zalo Ads - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1N_plZ3gXfVAJGs_47SkRyqs1RpKpJK6D','Zalo Ads - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1N_plZ3gXfVAJGs_47SkRyqs1RpKpJK6D&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Zalo Ads - 2</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1NrtZLR0di_IwLZifvey7_eMN2tfMIba_','Zalo Ads - 3')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NrtZLR0di_IwLZifvey7_eMN2tfMIba_&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Zalo Ads - 3</div>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="asset-card" onclick="openAds('1Hab0sDRw8ahDYv4AQh7Rbfg05ahgkogb','LinkedIn - 1')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1Hab0sDRw8ahDYv4AQh7Rbfg05ahgkogb&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">LinkedIn - 1</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1A3LYrdmNaeM65G7UtVLqL1dYqnSCBWRo','LinkedIn - 2')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1A3LYrdmNaeM65G7UtVLqL1dYqnSCBWRo&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">LinkedIn - 2</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1Qa1c-zl9lrShKE9fwX0eGH4IUsy-Me_H','LinkedIn - 3')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1Qa1c-zl9lrShKE9fwX0eGH4IUsy-Me_H&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">LinkedIn - 3</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1C8jPUJZFa8BD3SXND2WNGj4cdgzcki7M','LinkedIn - 4')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1C8jPUJZFa8BD3SXND2WNGj4cdgzcki7M&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">LinkedIn - 4</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1NIUtFnr6rdF7KJbwj8kYfJHPwxPqstsW','LinkedIn - 5')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1NIUtFnr6rdF7KJbwj8kYfJHPwxPqstsW&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">LinkedIn - 5</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── LANDING PAGE ───────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Landing <span>Page Design</span></h2>
+    <p class="section-sub reveal">Conversion-focused landing pages tied directly to Google Ads campaigns</p>
+    <div class="asset-grid reveal">
+
+      <div class="asset-card" onclick="openAds('1Q8kyjQONpPqc-jKI-VmF3bNdGPJn5_ny','Landing Page — Colonoscopy Desktop')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1Q8kyjQONpPqc-jKI-VmF3bNdGPJn5_ny&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Colonoscopy — Desktop</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1QB18Ze_v3Q3z6cVz1ngAlc1FXYDHu4AN','Landing Page — Colonoscopy Mobile')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1QB18Ze_v3Q3z6cVz1ngAlc1FXYDHu4AN&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Colonoscopy — Mobile</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1Q08YeSsg4iacluZWxRDjjcNfCkHbp6wt','Landing Page — General Health Check-up Desktop')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1Q08YeSsg4iacluZWxRDjjcNfCkHbp6wt&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">General Health Check-up — Desktop</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1QAAiYRpe6t0ukW4o2LO1OUua7tSlOFID','Landing Page — General Health Check-up Mobile')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1QAAiYRpe6t0ukW4o2LO1OUua7tSlOFID&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">General Health Check-up — Mobile</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1QBRXLJRIt2bRceWrAX55SdVYV1QAZ42n','Landing Page — Stroke Screening Desktop')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1QBRXLJRIt2bRceWrAX55SdVYV1QAZ42n&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Stroke Screening — Desktop</div>
+      </div>
+      <div class="asset-card" onclick="openAds('1QD1bbrVlRSkWXbB9psS2NL5aj_SAwwKJ','Landing Page — Stroke Screening Mobile')">
+        <div class="asset-thumb"><img src="https://drive.google.com/thumbnail?id=1QD1bbrVlRSkWXbB9psS2NL5aj_SAwwKJ&sz=w400" alt="" loading="lazy"/><div class="asset-hover-bar"><i class="fa fa-expand-alt"></i> Click to see more</div></div>
+        <div class="asset-label">Stroke Screening — Mobile</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Drive popup modal -->
+<div id="ads-modal">
+  <div class="ads-modal-inner">
+    <div class="ads-modal-header">
+      <span class="ads-modal-title" id="ads-modal-title"></span>
+      <button class="ads-modal-close" id="ads-modal-close">&times;</button>
+    </div>
+    <iframe id="ads-iframe" src="" allowfullscreen title="Preview"></iframe>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Contact Me</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+
+<script src="script.js"></script>
+<script>
+function openAds(id, label) {
+  document.getElementById('ads-modal-title').textContent = label;
+  document.getElementById('ads-iframe').src = `https://drive.google.com/file/d/${id}/preview`;
+  document.getElementById('ads-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAds() {
+  document.getElementById('ads-modal').classList.remove('open');
+  document.getElementById('ads-iframe').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('ads-modal-close').addEventListener('click', closeAds);
+document.getElementById('ads-modal').addEventListener('click', e => { if (e.target === document.getElementById('ads-modal')) closeAds(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAds(); });
+</script>
+</body>
+</html>

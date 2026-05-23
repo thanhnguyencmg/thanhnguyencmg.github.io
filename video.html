@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video | Adrian Nguyen</title>
+  <link rel="icon" href="media/avatar-logo.png"/>
+  <meta property="og:image" content="https://thanhnguyencmg.github.io/media/thumbnail-url.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ── Thumbnail items ───────────────────────────────────── */
+    .video-item {
+      flex-shrink: 0; border-radius: 10px; overflow: hidden;
+      cursor: pointer; position: relative; background: #111;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .video-item:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.35); }
+
+    /* 16:9 items */
+    .video-item.r169 { width: 320px; height: 180px; }
+
+    /* 9:16 items — taller portrait container */
+    .video-item.r916 { width: 101px; height: 180px; }
+
+    /* YouTube thumbnail — same for both ratios */
+    .video-item img.yt-thumb {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.3s;
+    }
+    .video-item:hover img.yt-thumb { transform: scale(1.05); }
+
+    /* Play overlay */
+    .play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.15); transition: background 0.2s;
+    }
+    .video-item:hover .play-overlay { background: rgba(0,0,0,0.30); }
+    .play-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.93);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue); font-size: 0.9rem; padding-left: 3px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .video-item.r916 .play-btn { width: 34px; height: 34px; font-size: 0.75rem; }
+    .video-item:hover .play-btn { transform: scale(1.12); background: #fff; }
+
+    /* ── Floating video modal ─────────────────────────────── */
+    #video-modal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.85);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #video-modal.open { display: flex; }
+
+    .vmodal-inner {
+      position: relative; border-radius: 12px; overflow: hidden;
+      background: #000; animation: popIn 0.2s ease;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.86); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    /* 16:9 modal */
+    .vmodal-inner.ratio-169 { width: min(860px, 94vw); aspect-ratio: 16/9; }
+
+    /* 9:16 modal */
+    .vmodal-inner.ratio-916 { width: min(400px, 90vw); aspect-ratio: 9/16; }
+
+    .vmodal-inner iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .vmodal-close {
+      position: absolute; top: 10px; right: 10px; z-index: 10;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(0,0,0,0.65); border: none;
+      color: #fff; font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .vmodal-close:hover { background: rgba(0,0,0,0.95); }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <img src="media/avatar-logo.png" alt="Adrian" class="nav-avatar"/>
+    <span class="logo">ADRIAN NGUYEN</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Resume</a>
+    <a href="video.html" class="active">Video</a>
+    <a href="graphic-design.html">Graphic Design</a>
+    <a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="ads.html">Ads</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="resume.html">Resume</a>
+  <a href="video.html" class="active">Video</a>
+  <a href="graphic-design.html">Graphic Design</a>
+  <a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a>
+  <a href="ads.html">Ads</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal">
+      <img src="media/headshot.jpg" alt="Adrian Nguyen"/>
+    </div>
+    <div class="hero-text reveal">
+      <img src="media/video.svg" alt="" class="page-icon"/>
+      <h1>Video</h1>
+      <p class="sub">500+ videos. 1.78M views. 69.93% average view duration.</p>
+      <p>From 30-second TikTok shorts to long-form brand films, from doctor-led testimonials to AI-powered scientific animations — I've shipped video across every format that mattered. I've built three-tier production systems, and trained 50+ team members on short-form workflows to deliver high-quality content.</p>
+      <div class="hero-btns">
+        <a href="#video-sections" class="btn btn-primary">See Results →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 3: Talking Head Videos ───────────────────── -->
+<!-- 4 × 9:16 YouTube + 6 × 16:9 YouTube -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Talking Head Videos</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <!-- 9:16 YouTube (new replacements) -->
+          <div class="video-item r916" data-type="youtube" data-id="plu7UhZS6gQ" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/plu7UhZS6gQ/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="TLMYgMb62Gw" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/TLMYgMb62Gw/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="tw8zqXEkTlo" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/tw8zqXEkTlo/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="7xg9BCTLf5U" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/7xg9BCTLf5U/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <!-- 16:9 YouTube (unchanged) -->
+          <div class="video-item r169" data-type="youtube" data-id="bIfHWL_YZ_0" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/bIfHWL_YZ_0/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="tyA1j2Yp1jA" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/tyA1j2Yp1jA/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="IAx39ak68qo" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/IAx39ak68qo/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="P5AOyMC2nYg" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/P5AOyMC2nYg/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="KGzUvTj8TR0" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/KGzUvTj8TR0/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="d0Nuq8PwtLw" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/d0Nuq8PwtLw/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 4: Educational Videos ── 6 × 9:16 YouTube ── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Educational Videos</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r916" data-type="youtube" data-id="dlNYAi39eQs" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/dlNYAi39eQs/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="RxNDCP3LoBI" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/RxNDCP3LoBI/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="08YuUcbUtyM" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/08YuUcbUtyM/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="VtAeqRrGzQ8" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/VtAeqRrGzQ8/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="wFKrzCDviFs" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/wFKrzCDviFs/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="qK6rz9a30W0" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/qK6rz9a30W0/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 5: TVC / Brand Film ── 3 × 16:9 YouTube ─── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">TVC / Brand Film</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r169" data-type="youtube" data-id="uOqClfiiWnc" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/uOqClfiiWnc/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="Oapdc__4wyI" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/Oapdc__4wyI/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="y7xjrKUq8us" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/y7xjrKUq8us/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 6: Performance Ads Creative ── 4 × 16:9 ─── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Performance Ads Creative</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r169" data-type="youtube" data-id="WbCuHpZ8c5w" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/WbCuHpZ8c5w/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="MTQAwn77fxA" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/MTQAwn77fxA/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="k42bPRxqlKI" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/k42bPRxqlKI/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="rJoB-foBIgA" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/rJoB-foBIgA/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 7: KOL / KOC Collaborations ── 8 × 16:9 ─── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">KOL / KOC Collaborations</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r169" data-type="youtube" data-id="Be_O8GnZF3A" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/Be_O8GnZF3A/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="5fzmhh1rkuY" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/5fzmhh1rkuY/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="3ElooeNJHmE" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/3ElooeNJHmE/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="OIbwxb9Ro24" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/OIbwxb9Ro24/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="S73IrJheFBk" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/S73IrJheFBk/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="T9FlfGynYxQ" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/T9FlfGynYxQ/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="P5tBi1oq5g8" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/P5tBi1oq5g8/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="5fdz6zvjkNk" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/5fdz6zvjkNk/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 8: Testimonial Videos ─────────────────────── -->
+<!-- 4 × 9:16 YouTube (new) + 6 × 16:9 YouTube (unchanged) -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Testimonial Videos</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <!-- 9:16 YouTube (new replacements) -->
+          <div class="video-item r916" data-type="youtube" data-id="VAQCSQfc-ss" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/VAQCSQfc-ss/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="sI89g4-j0ho" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/sI89g4-j0ho/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="Odl9kPN1FTc" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/Odl9kPN1FTc/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r916" data-type="youtube" data-id="8U-_6pg4Msc" data-ratio="916">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/8U-_6pg4Msc/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <!-- 16:9 YouTube (unchanged) -->
+          <div class="video-item r169" data-type="youtube" data-id="_tXtMzarBlQ" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/_tXtMzarBlQ/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="QRPRad-dynk" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/QRPRad-dynk/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="PRoyxSArWSw" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/PRoyxSArWSw/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="ErTfeOeAAuc" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/ErTfeOeAAuc/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="jAirE0_y0QU" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/jAirE0_y0QU/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="D_3qnIHPsWw" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/D_3qnIHPsWw/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 9: Procedure ── 3 × 16:9 YouTube ─────────── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Procedure</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r169" data-type="youtube" data-id="ixsA8_D4QiM" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/ixsA8_D4QiM/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="kvO2gjR5w2Y" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/kvO2gjR5w2Y/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+          <div class="video-item r169" data-type="youtube" data-id="aqj3fU75Znk" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/aqj3fU75Znk/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION 10: Scientific Animation ── 1 × 16:9 ─────── -->
+<div class="video-section-block">
+  <div class="video-section-inner">
+    <h2 class="vs-heading">Scientific Animation</h2>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev-btn"><i class="fa fa-chevron-left"></i></button>
+      <div class="carousel-track-outer">
+        <div class="carousel-track">
+          <div class="video-item r169" data-type="youtube" data-id="RpXRGKm1paE" data-ratio="169">
+            <img class="yt-thumb" src="https://img.youtube.com/vi/RpXRGKm1paE/hqdefault.jpg" alt=""/>
+            <div class="play-overlay"><div class="play-btn"><i class="fa fa-play"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn next-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FLOATING VIDEO MODAL ─────────────────────────────── -->
+<div id="video-modal">
+  <div class="vmodal-inner" id="vmodal-inner">
+    <button class="vmodal-close" id="vmodal-close"><i class="fa fa-times"></i></button>
+    <!-- iframe injected by JS on click -->
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Contact Me</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+
+<script src="script.js"></script>
+<script>
+// ── Video modal — YouTube only, ratio-aware ────────────────────────────────
+const modal      = document.getElementById('video-modal');
+const modalInner = document.getElementById('vmodal-inner');
+const closeBtn   = document.getElementById('vmodal-close');
+
+function openVideo(id, ratio) {
+  // Remove old iframe
+  const old = modalInner.querySelector('iframe');
+  if (old) old.remove();
+
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=0&rel=0&playsinline=1`;
+  iframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+  iframe.allowFullscreen = true;
+  iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+
+  // Use correct modal shape based on video ratio
+  modalInner.className = ratio === '916'
+    ? 'vmodal-inner ratio-916'
+    : 'vmodal-inner ratio-169';
+
+  modalInner.insertBefore(iframe, closeBtn);
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideo() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  const iframe = modalInner.querySelector('iframe');
+  if (iframe) iframe.remove();
+}
+
+// Attach click to all thumbnail items
+document.querySelectorAll('.video-item[data-id]').forEach(item => {
+  item.addEventListener('click', () => {
+    openVideo(item.dataset.id, item.dataset.ratio || '169');
+  });
+});
+
+closeBtn.addEventListener('click', closeVideo);
+modal.addEventListener('click', e => { if (e.target === modal) closeVideo(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+</script>
+</body>
+</html>

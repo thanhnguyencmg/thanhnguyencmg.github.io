@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Graphic Design | Adrian Nguyen</title>
+  <link rel="icon" href="media/avatar-logo.png"/>
+  <meta property="og:image" content="https://thanhnguyencmg.github.io/media/thumbnail-url.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ── Section layout ───────────────────────────────────── */
+    .design-section { }
+    .design-section-title {
+      font-size: 1.3rem; font-weight: 700; color: var(--dark);
+      margin-bottom: 20px; padding-bottom: 10px;
+      border-bottom: 3px solid var(--blue); display: inline-block;
+    }
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Gallery card ─────────────────────────────────────── */
+    .g-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; cursor: pointer; background: #fff;
+      transition: all 0.25s; display: flex; flex-direction: column;
+    }
+    .g-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(5,74,218,0.13);
+      border-color: var(--blue);
+    }
+
+    /* Thumbnail wrapper — all 4:3 */
+    .g-thumb {
+      position: relative; overflow: hidden;
+      background: var(--bg-alt); flex-shrink: 0;
+      aspect-ratio: 4/3;
+    }
+    /* Override any ratio classes — all are 4:3 now */
+    .g-thumb[class*="ratio-"] { aspect-ratio: 4/3; }
+
+    .g-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.4s ease;
+    }
+    .g-card:hover .g-thumb img { transform: scale(1.06); }
+
+    /* Elegant "Click to see more" bar — slides up on hover */
+    .g-hover-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 28px 14px 12px;
+      background: linear-gradient(to top, rgba(5,74,218,0.82) 0%, transparent 100%);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(.22,.61,.36,1);
+      pointer-events: none;
+    }
+    .g-card:hover .g-hover-bar { transform: translateY(0); }
+    .g-hover-bar i { font-size: 0.75rem; opacity: 0.9; }
+
+    /* Label below thumbnail */
+    .g-label {
+      padding: 10px 12px; font-size: 0.78rem; font-weight: 600;
+      color: var(--dark); line-height: 1.4; flex: 1;
+    }
+    .g-label em { font-style: italic; }
+
+    /* ── Lightbox modal ───────────────────────────────────── */
+    #drive-modal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.88);
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    #drive-modal.open { display: flex; }
+    .dmodal-inner {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      width: min(960px, 96vw); height: min(90vh, 900px);
+      display: flex; flex-direction: column;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      animation: popIn 0.2s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .dmodal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .dmodal-title { font-size: 0.88rem; font-weight: 700; color: var(--dark); }
+    .dmodal-title em { font-style: italic; }
+    .dmodal-close {
+      width: 32px; height: 32px; border: none; background: none;
+      cursor: pointer; font-size: 1.3rem; color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; transition: background 0.2s;
+    }
+    .dmodal-close:hover { background: var(--bg-alt); color: var(--dark); }
+    #drive-iframe {
+      flex: 1; border: none; width: 100%; display: block;
+      background: var(--bg-alt);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <img src="media/avatar-logo.png" alt="Adrian" class="nav-avatar"/>
+    <span class="logo">ADRIAN NGUYEN</span>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resume.html">Resume</a>
+    <a href="video.html">Video</a>
+    <a href="graphic-design.html" class="active">Graphic Design</a>
+    <a href="seo-content.html">SEO Content</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="ads.html">Ads</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="resume.html">Resume</a>
+  <a href="video.html">Video</a>
+  <a href="graphic-design.html" class="active">Graphic Design</a>
+  <a href="seo-content.html">SEO Content</a>
+  <a href="social-media.html">Social Media</a>
+  <a href="ads.html">Ads</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-wrap reveal">
+      <img src="media/headshot.jpg" alt="Adrian Nguyen"/>
+    </div>
+    <div class="hero-text reveal">
+      <img src="media/graphic-design.svg" alt="" class="page-icon"/>
+      <h1>Graphic Design</h1>
+      <p class="sub">Design that performs — not the design awards circuit.</p>
+      <p>I approach design with a clear goal: every visual must drive results. From clinic POSM and click-worthy SEO images to high-performing landing pages, I build assets that turn attention into action. To deliver this, I work daily across a versatile toolkit: Adobe Illustrator, Canva Pro + AI, Premiere Pro, and CapCut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERIES — 6 alternating sections -->
+<section class="section">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">POSM — Point of Sale Materials</div>
+      <div class="design-grid" id="grid-posm"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">OOH — Out-of-Home</div>
+      <div class="design-grid" id="grid-ooh"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">Ebook</div>
+      <div class="design-grid" id="grid-ebook"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">Social Media Post Design</div>
+      <div class="design-grid" id="grid-social"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">SEO Image / Featured Graphics</div>
+      <div class="design-grid" id="grid-seo"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="design-section reveal">
+      <div class="design-section-title">Landing Page Design</div>
+      <div class="design-grid" id="grid-landing"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX MODAL -->
+<div id="drive-modal">
+  <div class="dmodal-inner">
+    <div class="dmodal-header">
+      <span class="dmodal-title" id="dmodal-label"></span>
+      <button class="dmodal-close" id="dmodal-close">&times;</button>
+    </div>
+    <iframe id="drive-iframe" src="" allowfullscreen title="Preview"></iframe>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="reveal">Contact Me</h2>
+    <p class="contact-sub reveal">Open to senior in-house roles, consulting, and select freelance projects.</p>
+    <div class="contact-icons reveal">
+      <div class="contact-icon-btn"><a href="mailto:thanhnguyencmg@gmail.com"><i class="fa fa-envelope"></i></a><span>Email</span></div>
+      <div class="contact-icon-btn"><a href="https://linkedin.com/in/adrian-thanh-nguyen" target="_blank"><i class="fab fa-linkedin-in"></i></a><span>LinkedIn</span></div>
+      <div class="contact-icon-btn"><a href="tel:+84964955431"><i class="fa fa-phone"></i></a><span>Call</span></div>
+      <div class="contact-icon-btn"><a href="https://zalo.me/84964955431" target="_blank"><i class="fa fa-comment"></i></a><span>Zalo</span></div>
+      <div class="contact-icon-btn"><a href="https://wa.me/84964955431" target="_blank"><i class="fab fa-whatsapp"></i></a><span>WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Adrian Nguyen (Nguyen Tan Thanh) · Senior Digital Marketing Specialist</p></footer>
+
+<script src="script.js"></script>
+<script>
+// ── Gallery data — Google Drive IDs ────────────────────────────────────────
+// thumb(id) → drive.google.com/thumbnail (Google auto-generates)
+// embed(id) → drive.google.com/file/d/.../preview
+//
+// ratio: '43' | '34' | '11' | '169'
+// labelHtml: supports <em> for italics
+
+const GALLERY = {
+
+  posm: [
+    { id: '1gVCSKwGnCr8tN8tFN1KZxNCjkKBRarAW', label: 'Brochure - Doctor Check',                  ratio: '34' },
+    { id: '1ewnC1lYq86PGebTiKiiD9ZDQB4wQX3Ah', label: 'Leaflet - Colonoscopy',                    ratio: '34' },
+    { id: '15myTOd1tCSmmRbW6DA26sB8CDLy2KDpl', label: 'Standee - Doctor Check x AstraZeneca 1',   ratio: '34' },
+    { id: '15pu5I-1jaP9_AgGqX8mv0mEJebv1z05a', label: 'Standee - Doctor Check x AstraZeneca 2',   ratio: '34' },
+    { id: '16se3NN1quNDVxH7MBTj3roxForbl3Ke3', label: 'Standee - Doctor Check x Fujifilm',         ratio: '34' },
+    { id: '15rMYC-LRTrD-_gLMlxVmtPtOq_YcpZ1Q', label: 'Standee - Doctor Check x Gene Solution',  ratio: '34' },
+    { id: '16GlRBMruffCRCUGdfd8KfTONXULYte40', label: 'Flyer - Bowel Preparation Instruction',    ratio: '43' },
+    { id: '1D2uIyo4PlD8a4Oo8ykVnWHAaBd0Sn-Yi', label: 'Flyer - Check-in Program',                 ratio: '43' },
+    { id: '18AHzbq1QNFir4PjAQNgPisG-MN713OkF', label: 'Flyer - Price List',                        ratio: '43' },
+    { id: '16FPQ0AM4Ls_mjsqQl39q1JpCEVMvBlwv', label: 'Flyer - Thank-you Letter',                  ratio: '43' },
+    { id: '1Ea6CLDqa3ReYrvIQwoiCBb2gsNf3sE1h', label: 'Merchandise - Ceramic Mug',                 ratio: '43' },
+    { id: '1LyARUndrQ8UjQiQv0M158pNKMXb1Sq8w', label: 'Folder - Brief',                            ratio: '43' },
+    { id: '16d80FS19cUbKl_PraZ91TQTMYfMJh--J', label: 'Merchandise - Helmet',                      ratio: '43' },
+    { id: '1EXr82COddFsln_cwLfuPnHQZ19C1PDf0', label: 'Merchandise - Paper Bag',                   ratio: '43' },
+    { id: '1Dz_D_x1U-zKXRTV6QOIH5QW0tTvzvlQx', label: 'Signage - Lab',                            ratio: '43' },
+    { id: '1zB6UnNkG6_sLPVVauVM06LhfZFcinCaM', label: 'Signage - WC',                              ratio: '43' },
+    { id: '1E8DY21b9ZKpHrvFD18hmQT6V-1_9b53T', label: 'Signage - X-Ray',                          ratio: '43' },
+    { id: '11MgYThiBuXqoK3vNDHq9iW8nE8ihq2ud', label: 'Namecard - Doctor Check',                  ratio: '169' },
+    { id: '1dQz2Vj-6-HyWXxkRut8nOURZcjTOayzB', label: 'Namecard - Employee ID Cards',             ratio: '169' },
+  ],
+
+  ooh: [
+    { id: '1Q5XR_zhrrpke0W1yy42KGttixw-zI0C5', label: 'Banner - Bus Station',    ratio: '169' },
+    { id: '18Epxj9tJdDruJA481LMKbp5UYTFOhUfO', label: 'Banner - Price List',     ratio: '169' },
+    { id: '1F_NMHM0vipWgLfWwCMFJ50gq6PN2zPmF', label: 'Car Wrap - Mock Up',      ratio: '169' },
+    { id: '1KC-CAAYMNix1ceE5UdtsGoklURgFNOP9', label: 'Lightbox Sign - Mock Up', ratio: '43'  },
+  ],
+
+  ebook: [
+    { id: '1BSz3oZ7fyunP0ZEgDFU92DjSAXDUzue8', label: 'Ebook - GERD',     ratio: '34' },
+    { id: '1B6VmSqyA-Y5h7y1ZTfZXFyTeR8G7jGYq', label: 'Ebook - Diabetes', ratio: '34' },
+    { id: '1ALxU3-OzVIdRduvrcqKp0975rkooDoY_', label: 'Ebook - Stroke',    ratio: '34' },
+    { id: '1B9BU3tuOjo_NPBGgEMfQIT0ODYcfGvmm', label: 'Ebook - IBS',       ratio: '34' },
+  ],
+
+  social: [
+    { id: '1auTBheGr6OiQ90bcavLJ6mfZgK-laW8n', label: 'FB Daily Post - 1',         ratio: '11'  },
+    { id: '1-tN7M9JDOMGd4O1uhJ-GFmGwgvc239e3', label: 'FB Daily Post - 2',         ratio: '11'  },
+    { id: '105mBLpjResdH4X1iDMPbSWVysrcNxVBB', label: 'FB Daily Post - 3',         ratio: '11'  },
+    { id: '1MgcKaORTvkScfXWgz-Da36NDO8aKBdKJ', label: 'FB Daily Post - 4',         ratio: '11'  },
+    { id: '1LLYdPIyrkN0kPkPbo7kyCYa3BYtP_spn', label: 'YouTube Thumbnail - 1',     ratio: '169' },
+    { id: '1LK9d4cOPi9c8tg7VL58zNRpdC5B0jxyF', label: 'YouTube Thumbnail - 2',     ratio: '169' },
+    { id: '1LlOE1D3tuSJmBmWdPzSGGOYHiAYrHZ8E', label: 'YouTube Thumbnail - 3',     ratio: '169' },
+    { id: '1NAFjteZfrlov45Z6-D-pg6Jih7tHGnSj', label: 'Google Ads 900×900 - 1',    ratio: '11'  },
+    { id: '1NAoGLfe3xpWuWVhdTyhOFwoMKPkbDqo2', label: 'Google Ads 1200×628 - 1',   ratio: '169' },
+    { id: '1NNsDvS73tfcqiNWzJe7kpWpDfWw4y5xk', label: 'Google Ads 900×900 - 2',    ratio: '11'  },
+    { id: '1NHncccpKj1aYnGbCTcVSI4s59a8qMyTN', label: 'Google Ads 1200×628 - 2',   ratio: '169' },
+    { id: '1NPsiJNIKz-NNUHgjzEkoGgp9SMy0IkEd', label: 'Zalo Ads - 1',              ratio: '11'  },
+    { id: '1N_plZ3gXfVAJGs_47SkRyqs1RpKpJK6D', label: 'Zalo Ads - 2',              ratio: '11'  },
+    { id: '1NrtZLR0di_IwLZifvey7_eMN2tfMIba_', label: 'Zalo Ads - 3',              ratio: '11'  },
+    { id: '1Hab0sDRw8ahDYv4AQh7Rbfg05ahgkogb', label: 'LinkedIn - 1',              ratio: '169' },
+    { id: '1A3LYrdmNaeM65G7UtVLqL1dYqnSCBWRo', label: 'LinkedIn - 2',              ratio: '169' },
+    { id: '1Qa1c-zl9lrShKE9fwX0eGH4IUsy-Me_H', label: 'LinkedIn - 3',              ratio: '169' },
+    { id: '1C8jPUJZFa8BD3SXND2WNGj4cdgzcki7M', label: 'LinkedIn - 4',              ratio: '169' },
+    { id: '1NIUtFnr6rdF7KJbwj8kYfJHPwxPqstsW', label: 'LinkedIn - 5',              ratio: '169' },
+  ],
+
+  seo: [
+    { id: '1ZCG4ATAyO9Z4VIt8pf0LQOVLu1TAneQM', label: 'SEO Image — <em>H. pylori</em>', ratio: '169' },
+    { id: '1pfNRqFOFQ2uHIpCEuG33t1zADYaFVJBL', label: 'SEO Image — BASO',               ratio: '169' },
+  ],
+
+  landing: [
+    { id: '1Q8kyjQONpPqc-jKI-VmF3bNdGPJn5_ny', label: 'Landing Page - Colonoscopy Desktop',           ratio: '169' },
+    { id: '1QB18Ze_v3Q3z6cVz1ngAlc1FXYDHu4AN', label: 'Landing Page - Colonoscopy Mobile',            ratio: '34'  },
+    { id: '1Q08YeSsg4iacluZWxRDjjcNfCkHbp6wt', label: 'Landing Page - General Health Check-up Desktop', ratio: '169' },
+    { id: '1QAAiYRpe6t0ukW4o2LO1OUua7tSlOFID', label: 'Landing Page - General Health Check-up Mobile',  ratio: '34'  },
+    { id: '1QBRXLJRIt2bRceWrAX55SdVYV1QAZ42n', label: 'Landing Page - Stroke Screening Desktop',       ratio: '169' },
+    { id: '1QD1bbrVlRSkWXbB9psS2NL5aj_SAwwKJ', label: 'Landing Page - Stroke Screening Mobile',        ratio: '34'  },
+  ],
+};
+
+// ── URL helpers ────────────────────────────────────────────────────────────
+const thumbUrl  = id => `https://drive.google.com/thumbnail?id=${id}&sz=w400`;
+const embedUrl  = id => `https://drive.google.com/file/d/${id}/preview`;
+
+// ── Modal ──────────────────────────────────────────────────────────────────
+const modal    = document.getElementById('drive-modal');
+const iframe   = document.getElementById('drive-iframe');
+const label    = document.getElementById('dmodal-label');
+const closeBtn = document.getElementById('dmodal-close');
+
+function openDrive(id, labelHtml) {
+  label.innerHTML = labelHtml;
+  iframe.src = embedUrl(id);
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrive() {
+  modal.classList.remove('open');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+closeBtn.addEventListener('click', closeDrive);
+modal.addEventListener('click', e => { if (e.target === modal) closeDrive(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrive(); });
+
+// ── Build gallery cards ────────────────────────────────────────────────────
+function buildCard(item) {
+  const card = document.createElement('div');
+  card.className = 'g-card';
+  card.addEventListener('click', () => openDrive(item.id, item.label));
+
+  // Thumb wrap — always 4:3
+  const thumbWrap = document.createElement('div');
+  thumbWrap.className = 'g-thumb';
+
+  const img = document.createElement('img');
+  img.src = thumbUrl(item.id);
+  img.alt = item.label.replace(/<[^>]*>/g, '');
+  img.loading = 'lazy';
+  img.onerror = () => {
+    thumbWrap.style.cssText += 'background:#EFF6FF;display:flex;align-items:center;justify-content:center;';
+    img.style.display = 'none';
+    const icon = document.createElement('i');
+    icon.className = 'fa fa-file-alt';
+    icon.style.cssText = 'font-size:2rem;color:#054ADA;opacity:0.3;';
+    thumbWrap.appendChild(icon);
+  };
+  thumbWrap.appendChild(img);
+
+  // Elegant hover bar
+  const bar = document.createElement('div');
+  bar.className = 'g-hover-bar';
+  bar.innerHTML = '<i class="fa fa-expand-alt"></i> Click to see more';
+  thumbWrap.appendChild(bar);
+
+  card.appendChild(thumbWrap);
+
+  // Label
+  const labelEl = document.createElement('div');
+  labelEl.className = 'g-label';
+  labelEl.innerHTML = item.label;
+  card.appendChild(labelEl);
+
+  return card;
+}
+
+// ── Populate all grids ─────────────────────────────────────────────────────
+const GRID_MAP = {
+  posm:    'grid-posm',
+  ooh:     'grid-ooh',
+  ebook:   'grid-ebook',
+  social:  'grid-social',
+  seo:     'grid-seo',
+  landing: 'grid-landing',
+};
+
+Object.entries(GRID_MAP).forEach(([key, gridId]) => {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  (GALLERY[key] || []).forEach(item => grid.appendChild(buildCard(item)));
+});
+</script>
+</body>
+</html>
